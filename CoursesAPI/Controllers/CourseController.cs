@@ -74,14 +74,27 @@ public class CourseController : ControllerBase
     //public async Task<CourseDTO> GetCourseWithModulesAndClasses(int courseId)
     public async Task<IActionResult> GetCourseWithModulesAndClasses(int courseID)
     {
-        //var course = await service.GetCourseWithModulesAndClasses(courseId);
-        //return Ok(course);
+ 
         var course = await service.GetCourseWithModulesAndClasses(courseID);
         if (course == null)
         {
-            return NotFound("Curso não encontrado para a categoria especificada.");
+            return NotFound($"No courses found for category ID {courseID}");
         }
 
         return Ok(course);
+    }
+
+    [HttpGet("CoursesByCategory/{categoryID}")]
+    [ProducesDefaultResponseTypeAttribute()]
+    public async Task<ActionResult<List<CourseModel>>> GetCoursesByCategory(int categoryID)
+    {
+        var courses = await service.GetCoursesByCategory(categoryID);
+
+        if (courses == null || !courses.Any())
+        {
+            return NotFound($"No courses found for category ID {categoryID}");
+        }
+
+        return Ok(courses);
     }
 }

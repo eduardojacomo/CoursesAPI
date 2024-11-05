@@ -10,5 +10,6 @@ public interface ICourseRepositories
     Task<CourseModel> SetCourse(CourseModel course);
     Task<CourseModel> UpdateCourse(CourseModel course, int id);
     Task<bool> Delete(int id);
-    Task<CourseDTO> GetCourseWithModulesAndClasses(int courseId);
+    Task<CourseDTO> GetCourseWithModulesAndClasses(int courseID);
+    Task<List<SimpleCourseDTO>> GetCoursesByCategory(int categoryID);
 }

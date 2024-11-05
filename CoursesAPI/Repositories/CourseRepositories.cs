@@ -89,12 +89,12 @@ public class CourseRepositories: ICourseRepositories
         }
     }
 
-    public async Task<CourseDTO> GetCourseWithModulesAndClasses(int courseId)
+    public async Task<CourseDTO> GetCourseWithModulesAndClasses(int courseID)
     {
         try
         {
             var course = await _dBContext.Course
-                .Where(c => c.ID == courseId)
+                .Where(c => c.ID == courseID)
                 .Include(c => c.Category)       
                 .Include(c => c.Instructor)     
                 .Include(c => c.CourseSyllabi)
@@ -134,10 +134,26 @@ public class CourseRepositories: ICourseRepositories
         }
         catch (Exception ex)
         {
-            throw new Exception($"Erro ao buscar o curso com ID {courseId}: {ex.Message}", ex);
+            throw new Exception($"Erro ao buscar o curso com ID {courseID}: {ex.Message}", ex);
         }
     }
 
+    public async Task<List<SimpleCourseDTO>> GetCoursesByCategory(int categoryID)
+    {
+        var courses = await _dBContext.Course
+        .Where(c => c.CategoryID == categoryID)
+        .Select(c => new SimpleCourseDTO
+        {
+            ID = c.ID,
+            Title = c.Title,
+            Description = c.Description,
+            CategoryID = c.CategoryID,
+            Thumbnail = c.Thumbnail,
+            InstructorID = c.InstructorID
+        })
+        .ToListAsync();
 
+        return courses;
+    }
 
 }

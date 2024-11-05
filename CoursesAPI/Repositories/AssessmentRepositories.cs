@@ -49,8 +49,8 @@ public class AssessmentRepositories : IAssessmentRepositories
         }
         assessmentbyID.ID = assessmentbyID.ID;
         assessmentbyID.StudentID = assessment.StudentID;
-        assessmentbyID.CourseID = assessment.CourseID;
-        assessmentbyID.Coments = assessment.Coments;
+        assessmentbyID.ModuleID = assessment.ModuleID;
+        assessmentbyID.Comments = assessment.Comments;
         assessmentbyID.Score = assessment.Score;
 
         try
