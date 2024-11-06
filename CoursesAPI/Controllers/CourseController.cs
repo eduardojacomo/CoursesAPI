@@ -23,17 +23,23 @@ public class CourseController : ControllerBase
     [HttpGet]
     [Route("GetCourses")]
     [ProducesDefaultResponseTypeAttribute()]
-    public async Task<ActionResult<List<CourseController>>> GetCourses()
+
+    public async Task<ActionResult<List<SimpleCourseDTO>>> GetCourses()
     {
-        List<CourseModel> courses = await service.GetCourses();
+        var courses = await service.GetCourses();
         return Ok(courses);
     }
 
     [HttpGet("{id}")]
     [ProducesDefaultResponseTypeAttribute()]
-    public async Task<ActionResult<CourseController>> GetByID(int id)
+
+    public async Task<ActionResult<SimpleCourseDTO>> GetCourseByID(int id)
     {
-        CourseModel course = await service.GetByID(id);
+        var course = await service.GetCourseByID(id);
+        if (course == null)
+        {
+            return NotFound();
+        }
         return Ok(course);
     }
 

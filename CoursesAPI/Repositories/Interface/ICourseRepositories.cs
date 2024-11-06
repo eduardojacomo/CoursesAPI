@@ -5,8 +5,10 @@ namespace CoursesAPI.Repositories.Interface;
 
 public interface ICourseRepositories
 {
-    Task<List<CourseModel>> GetCourses();
-    Task<CourseModel> GetByID(int id);
+    //Task<List<CourseModel>> GetCourses();
+    //Task<CourseModel> GetByID(int id);
+    Task<List<SimpleCourseDTO>> GetCourses();
+    Task<SimpleCourseDTO> GetCourseByID(int id);
     Task<CourseModel> SetCourse(CourseModel course);
     Task<CourseModel> UpdateCourse(CourseModel course, int id);
     Task<bool> Delete(int id);

@@ -1,4 +1,5 @@
 ﻿using CoursesAPI.Data;
+using CoursesAPI.DTOs;
 using CoursesAPI.Models;
 using CoursesAPI.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,21 @@ public class RegistrationRepositories : IRegistrationRepositories
         return await _dBContext.Set<RegistrationModel>().FindAsync(id);
     }
 
+    public async Task<RegistrationModel> GetByIDE(Guid ide)
+    {
+        return await _dBContext.Registration
+             .Where(c => c.IDE == ide)
+            .AsNoTracking()
+            .Select(c => new RegistrationModel
+            {
+                ID = c.ID,
+                IDE = c.IDE,
+                CourseID = c.CourseID,
+                StudentID = c.StudentID,
+                RegistrationDate = c.RegistrationDate
+            })
+            .FirstOrDefaultAsync();
+    }
 
     public async Task<RegistrationModel> SetRegistration(RegistrationModel registration)
     {
@@ -51,6 +67,7 @@ public class RegistrationRepositories : IRegistrationRepositories
         registrationbyID.RegistrationDate = registration.RegistrationDate;
         registrationbyID.StudentID = registration.StudentID;
         registrationbyID.CourseID = registration.CourseID;
+        registrationbyID.IDE = registration.IDE;
         try
         {
             _dBContext.Registration.Update(registrationbyID);

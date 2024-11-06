@@ -42,6 +42,7 @@ public class Program
         builder.Services.AddScoped<IClassRepositories, ClassRepositories>();
         builder.Services.AddScoped<IModuleRepositories, ModuleRepositories>();
         builder.Services.AddScoped<IStudentsRepositories, StudentsRepositories>();
+        builder.Services.AddScoped<IStudentProgressRepositories, StudentProgressRepositories>();
         builder.Services.AddScoped<IInstructorsRepositories, InstructorsRepositories>();
         builder.Services.AddScoped<IRegistrationRepositories, RegistrationRepositories>();
 

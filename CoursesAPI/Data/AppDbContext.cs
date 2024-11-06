@@ -18,6 +18,7 @@ public class AppDbContext : DbContext
     public DbSet<CourseSyllabusModel> CourseSyllabus { get; set; }
     public DbSet<ModuleModel> Module { get; set; }
     public DbSet<StudentModel> Students { get; set; }
+    public DbSet<StudentProgressModel> StudentProgress { get; set; }
     public DbSet<RegistrationModel> Registration { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -54,6 +55,7 @@ public class AppDbContext : DbContext
         modelBuilder.ApplyConfiguration(new InstructorsMap());
         modelBuilder.ApplyConfiguration(new ModuleMap());
         modelBuilder.ApplyConfiguration(new StudentMap());
+        modelBuilder.ApplyConfiguration(new StudentProgressMap());
         modelBuilder.ApplyConfiguration(new RegistrationMap());
         base.OnModelCreating(modelBuilder);
     }

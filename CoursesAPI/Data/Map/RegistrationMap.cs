@@ -13,6 +13,7 @@ public class RegistrationMap : IEntityTypeConfiguration<RegistrationModel>
         builder.Property(x => x.CourseID).IsRequired();
         builder.Property(x => x.StudentID).IsRequired();
         builder.Property(x => x.RegistrationDate).IsRequired();
- 
+        builder.Property(x => x.IDE).IsRequired();
+
     }
 }

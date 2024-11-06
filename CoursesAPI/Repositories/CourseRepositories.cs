@@ -14,16 +14,47 @@ public class CourseRepositories: ICourseRepositories
         _dBContext = appDBContext;
     }
 
-    public async Task<List<CourseModel>> GetCourses()
-    {
-        return await _dBContext.Course.AsNoTracking().ToListAsync();
-    }
+    //public async Task<List<CourseModel>> GetCourses()
+    //{
+    //    return await _dBContext.Course.AsNoTracking().ToListAsync();
+    //}
 
     public async Task<CourseModel> GetByID(int id)
     {
         return await _dBContext.Set<CourseModel>().FindAsync(id);
     }
 
+    public async Task<List<SimpleCourseDTO>> GetCourses()
+    {
+        return await _dBContext.Course
+            .AsNoTracking()
+            .Select(c => new SimpleCourseDTO
+            {
+                ID = c.ID,
+                Title = c.Title,
+                Description = c.Description,
+                CategoryID = c.CategoryID,
+                Thumbnail = c.Thumbnail,
+                InstructorID = c.InstructorID
+            })
+            .ToListAsync();
+    }
+
+    public async Task<SimpleCourseDTO> GetCourseByID(int id)
+    {
+        return await _dBContext.Course
+            .Where(c => c.ID == id)
+            .Select(c => new SimpleCourseDTO
+            {
+                ID = c.ID,
+                Title = c.Title,
+                Description = c.Description,
+                CategoryID = c.CategoryID,
+                Thumbnail = c.Thumbnail,
+                InstructorID = c.InstructorID
+            })
+            .FirstOrDefaultAsync();
+    }
 
     public async Task<CourseModel> SetCourse(CourseModel course)
     {
