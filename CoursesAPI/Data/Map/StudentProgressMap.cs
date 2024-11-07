@@ -13,8 +13,20 @@ public class StudentProgressMap : IEntityTypeConfiguration<StudentProgressModel>
         builder.Property(x => x.StartDate).IsRequired();
         builder.Property(x => x.CompletionDate).IsRequired();
         builder.Property(x => x.RegistrationIDE).IsRequired();
+        builder.Property(x => x.RegistrationID).IsRequired();
         builder.Property(x => x.ModuleID).IsRequired();
         builder.Property(x => x.ClassID).IsRequired();
 
+        builder.HasOne(sp => sp.Registration)
+               .WithMany(r => r.StudentProgress)
+               .HasForeignKey(sp => sp.RegistrationID);
+
+        builder.HasOne(sp => sp.Module)
+               .WithMany(r => r.StudentProgress)
+               .HasForeignKey(sp => sp.ModuleID);
+
+        builder.HasOne(sp => sp.Class)
+               .WithMany(r => r.StudentProgress)
+               .HasForeignKey(sp => sp.ClassID);
     }
 }

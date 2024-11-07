@@ -1,4 +1,5 @@
 ﻿using CoursesAPI.Data;
+using CoursesAPI.DTOs;
 using CoursesAPI.Models;
 using CoursesAPI.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -13,9 +14,18 @@ public class ClassRepositories: IClassRepositories
         _dBContext = appDBContext;
     }
 
-    public async Task<List<ClassModel>> GetClass()
+    public async Task<List<ClassDTO>> GetClass()
     {
-        return await _dBContext.Class.AsNoTracking().ToListAsync();
+        return await _dBContext.Class
+            .AsNoTracking()
+            .Select(c => new ClassDTO
+            {
+                ID = c.ID,
+                ClassTitle = c.Title,
+                ClassDescription = c.ClassDescription,
+                ModuleID = c.ModuleID
+            })
+            .ToListAsync();
     }
 
     public async Task<ClassModel> GetByID(int id)
@@ -23,6 +33,20 @@ public class ClassRepositories: IClassRepositories
         return await _dBContext.Set<ClassModel>().FindAsync(id);
     }
 
+    public async Task<ClassDTO> GetClassByID(int id)
+    {
+        var _class = await _dBContext.Class
+           .Where(c => c.ID == id)
+           .Select(c => new ClassDTO
+           {
+               ID = c.ID,
+               ClassTitle = c.Title,
+               ClassDescription = c.ClassDescription,
+               ModuleID = c.ModuleID
+           })
+            .FirstOrDefaultAsync();
+        return _class;
+    }
 
     public async Task<ClassModel> SetClass(ClassModel _class)
     {

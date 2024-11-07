@@ -15,5 +15,12 @@ public class RegistrationMap : IEntityTypeConfiguration<RegistrationModel>
         builder.Property(x => x.RegistrationDate).IsRequired();
         builder.Property(x => x.IDE).IsRequired();
 
+        builder.HasOne(r => r.Course)
+               .WithMany(c => c.Registration)
+               .HasForeignKey(r => r.CourseID);
+
+        builder.HasOne(r => r.Student)
+               .WithMany(c => c.Registration)
+               .HasForeignKey(r => r.StudentID);
     }
 }

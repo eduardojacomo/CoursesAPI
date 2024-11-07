@@ -8,4 +8,5 @@ public class ClassModel
     public int ModuleID { get; set; }
 
     public ModuleModel Module { get; set; }
+    public ICollection<StudentProgressModel> StudentProgress { get; set; }
 }

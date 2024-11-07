@@ -20,7 +20,7 @@ public class RegistrationController : ControllerBase
     }
 
     [HttpGet]
-    [Route("GetStudents")]
+    [Route("GetRegistrations")]
     [ProducesDefaultResponseTypeAttribute()]
     public async Task<ActionResult<List<RegistrationController>>> GetRegistrations()
     {
@@ -62,7 +62,11 @@ public class RegistrationController : ControllerBase
         return Ok(registration);
     }
 
-
+    /// <summary>
+    /// Deletes a specific Registration.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpDelete("{id}")]
     [ProducesDefaultResponseTypeAttribute()]
     public async Task<ActionResult<RegistrationModel>> Delete(int id)

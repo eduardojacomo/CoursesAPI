@@ -7,4 +7,7 @@ public class RegistrationModel
     public int StudentID { get; set; }
     public DateTime RegistrationDate { get; set; }
     public Guid IDE { get; set; }
+    public CourseModel Course { get; set; }
+    public StudentModel Student { get; set; }
+    public ICollection<StudentProgressModel> StudentProgress { get; set; }
 }

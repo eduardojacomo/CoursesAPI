@@ -8,4 +8,5 @@ public class StudentProgressDTO
     public DateTime StartDate { get; set; }
     public DateTime CompletionDate { get; set; }
     public Guid RegistrationIDE { get; set; }
+    public int RegistrationID { get; set; }
 }

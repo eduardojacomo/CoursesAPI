@@ -8,4 +8,6 @@ public class ModuleModel
     public string ModuleLevel { get; set; }
     public ICollection<CourseSyllabusModel> CourseSyllabi { get; set; }
     public ICollection<ClassModel> Classes { get; set; }
+    public ICollection<AssessmentModel> Assessment { get; set; }
+    public ICollection<StudentProgressModel> StudentProgress { get; set; }
 }

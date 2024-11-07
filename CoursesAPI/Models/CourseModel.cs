@@ -12,4 +12,5 @@ public class CourseModel
     public CategoryModel Category { get; set; }
     public InstructorsModel Instructor { get; set; }
     public ICollection<CourseSyllabusModel> CourseSyllabi { get; set; }
+    public ICollection<RegistrationModel> Registration { get; set; }
 }

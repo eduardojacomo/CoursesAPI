@@ -15,5 +15,11 @@ public class AssessmentMap : IEntityTypeConfiguration<AssessmentModel>
         builder.Property(x => x.Comments).IsRequired();
         builder.Property(x => x.Score).IsRequired();
 
+        builder.HasOne(a => a.Student)
+               .WithMany(c => c.Assessment)
+               .HasForeignKey(a => a.StudentID);
+        builder.HasOne(a => a.Module)
+               .WithMany(c => c.Assessment)
+               .HasForeignKey(a => a.ModuleID);
     }
 }

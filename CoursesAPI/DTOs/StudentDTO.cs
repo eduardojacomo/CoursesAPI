@@ -1,6 +1,6 @@
-﻿namespace CoursesAPI.Models;
+﻿namespace CoursesAPI.DTOs;
 
-public class StudentModel
+public class StudentDTO
 {
     public int ID { get; set; }
     public string Name { get; set; }
@@ -10,8 +10,4 @@ public class StudentModel
     public string Complement { get; set; }
     public string Phone { get; set; }
     public string PostalCode { get; set; }
-
-    public ICollection<RegistrationModel> Registration { get; set; }
-    public ICollection<AssessmentModel> Assessment { get; set; }
-
 }

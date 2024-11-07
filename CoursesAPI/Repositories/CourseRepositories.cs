@@ -42,7 +42,7 @@ public class CourseRepositories: ICourseRepositories
 
     public async Task<SimpleCourseDTO> GetCourseByID(int id)
     {
-        return await _dBContext.Course
+        var course = await _dBContext.Course
             .Where(c => c.ID == id)
             .Select(c => new SimpleCourseDTO
             {
@@ -54,6 +54,8 @@ public class CourseRepositories: ICourseRepositories
                 InstructorID = c.InstructorID
             })
             .FirstOrDefaultAsync();
+
+        return course;
     }
 
     public async Task<CourseModel> SetCourse(CourseModel course)
