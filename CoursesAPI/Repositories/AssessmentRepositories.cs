@@ -1,4 +1,5 @@
 ﻿using CoursesAPI.Data;
+using CoursesAPI.DTOs;
 using CoursesAPI.Models;
 using CoursesAPI.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -13,14 +14,45 @@ public class AssessmentRepositories : IAssessmentRepositories
         _dBContext = appDBContext;
     }
 
-    public async Task<List<AssessmentModel>> GetAssessments()
+    public async Task<List<AssessmentDTO>> GetAssessments()
     {
-        return await _dBContext.Assessment.AsNoTracking().ToListAsync();
+        return await _dBContext.Assessment
+            .AsNoTracking()
+            .Select(a => new AssessmentDTO
+            {
+                ID = a.ID,
+                ModuleID = a.ModuleID,
+                StudentID = a.StudentID,
+                Comments = a.Comments,
+                Score = a.Score
+            })
+            .ToListAsync();
     }
 
     public async Task<AssessmentModel> GetByID(int id)
     {
         return await _dBContext.Set<AssessmentModel>().FindAsync(id);
+    }
+    public async Task<AssessmentDTO> GetAssessmentsByID(int id)
+    {
+       var assessments = await _dBContext.Assessment
+            .Where(a => a.ID == id)
+            .Select(a => new AssessmentDTO
+            {
+                ID = a.ID,
+                ModuleID = a.ModuleID,
+                StudentID = a.StudentID,
+                Comments = a.Comments,
+                Score = a.Score
+            })
+            .FirstOrDefaultAsync();
+
+        if (assessments == null)
+        {
+            throw new Exception($"Assessment Id: {id} not found");
+        }
+
+        return assessments;
     }
 
 

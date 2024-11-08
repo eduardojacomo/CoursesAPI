@@ -1,4 +1,5 @@
-﻿using CoursesAPI.Models;
+﻿using CoursesAPI.DTOs;
+using CoursesAPI.Models;
 using CoursesAPI.Repositories;
 using CoursesAPI.Repositories.Interface;
 using Microsoft.AspNetCore.Cors;
@@ -22,9 +23,9 @@ public class RegistrationController : ControllerBase
     [HttpGet]
     [Route("GetRegistrations")]
     [ProducesDefaultResponseTypeAttribute()]
-    public async Task<ActionResult<List<RegistrationController>>> GetRegistrations()
+    public async Task<ActionResult<List<RegistrationDTO>>> GetRegistrations()
     {
-        List<RegistrationModel> registration = await service.GetRegistrations();
+        List<RegistrationDTO> registration = await service.GetRegistrations();
         return Ok(registration);
     }
 

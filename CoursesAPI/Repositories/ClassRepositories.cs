@@ -45,6 +45,12 @@ public class ClassRepositories: IClassRepositories
                ModuleID = c.ModuleID
            })
             .FirstOrDefaultAsync();
+
+        if (null == _class) 
+        {
+            throw new Exception($"Class Id: {id} not found");
+        }
+
         return _class;
     }
 
@@ -69,7 +75,7 @@ public class ClassRepositories: IClassRepositories
 
         if (classbyID == null)
         {
-            throw new Exception($"Student Id: {id} not found");
+            throw new Exception($"Class Id: {id} not found");
         }
         classbyID.ID = classbyID.ID;
         classbyID.Title = _class.Title;

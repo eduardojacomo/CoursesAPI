@@ -14,9 +14,20 @@ public class RegistrationRepositories : IRegistrationRepositories
         _dBContext = appDBContext;
     }
 
-    public async Task<List<RegistrationModel>> GetRegistrations()
+    public async Task<List<RegistrationDTO>> GetRegistrations()
     {
-        return await _dBContext.Registration.AsNoTracking().ToListAsync();
+        //return await _dBContext.Registration.AsNoTracking().ToListAsync();
+        return await _dBContext.Registration
+           .AsNoTracking()
+           .Select(c => new RegistrationDTO
+           {
+               ID = c.ID,
+               CourseID = c.CourseID,
+               StudentID = c.StudentID,
+               RegistrationDate = c.RegistrationDate,
+               IDE = c.IDE
+           })
+           .ToListAsync();
     }
 
     public async Task<RegistrationModel> GetByID(int id)
@@ -24,12 +35,12 @@ public class RegistrationRepositories : IRegistrationRepositories
         return await _dBContext.Set<RegistrationModel>().FindAsync(id);
     }
 
-    public async Task<RegistrationModel> GetByIDE(Guid ide)
+    public async Task<RegistrationDTO> GetByIDE(Guid ide)
     {
-        return await _dBContext.Registration
+        var registration = await _dBContext.Registration
              .Where(c => c.IDE == ide)
             .AsNoTracking()
-            .Select(c => new RegistrationModel
+            .Select(c => new RegistrationDTO
             {
                 ID = c.ID,
                 IDE = c.IDE,
@@ -38,6 +49,8 @@ public class RegistrationRepositories : IRegistrationRepositories
                 RegistrationDate = c.RegistrationDate
             })
             .FirstOrDefaultAsync();
+
+        return registration;
     }
 
     public async Task<RegistrationModel> SetRegistration(RegistrationModel registration)

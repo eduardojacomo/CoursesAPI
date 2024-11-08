@@ -1,4 +1,5 @@
-﻿using CoursesAPI.Models;
+﻿using CoursesAPI.DTOs;
+using CoursesAPI.Models;
 using CoursesAPI.Repositories;
 using CoursesAPI.Repositories.Interface;
 using Microsoft.AspNetCore.Cors;
@@ -22,17 +23,17 @@ public class AssessmentController : ControllerBase
     [HttpGet]
     [Route("GetAssessments")]
     [ProducesDefaultResponseTypeAttribute()]
-    public async Task<ActionResult<List<AssessmentController>>> GetAssessments()
+    public async Task<ActionResult<List<AssessmentDTO>>> GetAssessments()
     {
-        List<AssessmentModel> assessments = await service.GetAssessments();
+        List<AssessmentDTO> assessments = await service.GetAssessments();
         return Ok(assessments);
     }
 
     [HttpGet("{id}")]
     [ProducesDefaultResponseTypeAttribute()]
-    public async Task<ActionResult<AssessmentController>> GetByID(int id)
+    public async Task<ActionResult<AssessmentDTO>> GetAssessmentsByID(int id)
     {
-        AssessmentModel assessments = await service.GetByID(id);
+        AssessmentDTO assessments = await service.GetAssessmentsByID(id);
         return Ok(assessments);
     }
 

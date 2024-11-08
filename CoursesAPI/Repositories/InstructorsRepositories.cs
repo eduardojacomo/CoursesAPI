@@ -1,4 +1,5 @@
 ﻿using CoursesAPI.Data;
+using CoursesAPI.DTOs;
 using CoursesAPI.Models;
 using CoursesAPI.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -13,14 +14,43 @@ public class InstructorsRepositories: IInstructorsRepositories
         _dBContext = appDBContext;
     }
 
-    public async Task<List<InstructorsModel>> GetInstructors()
+    public async Task<List<InstructorDTO>> GetInstructors()
     {
-        return await _dBContext.Instructors.AsNoTracking().ToListAsync();
+        return await _dBContext.Instructors
+             .AsNoTracking()
+             .Select(c => new InstructorDTO
+             {
+                 InstructorID = c.ID,
+                 InstructorName = c.Name,
+                 InstructorEmail = c.Email,
+                 InstructorPhone = c.Phone
+             })
+             .ToListAsync();
     }
 
     public async Task<InstructorsModel> GetByID(int id)
     {
         return await _dBContext.Set<InstructorsModel>().FindAsync(id);
+    }
+    public async Task<InstructorDTO> GetInstructorByID(int id)
+    {
+        var instructor = await _dBContext.Instructors
+                .Where(c => c.ID == id)
+                .Select(c => new InstructorDTO
+                {
+                    InstructorID = c.ID,
+                    InstructorName = c.Name,
+                    InstructorEmail = c.Email,
+                    InstructorPhone = c.Phone
+                })
+                 .FirstOrDefaultAsync();
+
+        if (instructor == null)
+        {
+            throw new Exception($"Instructor Id: {id} not found");
+        }
+
+        return instructor;
     }
 
 
@@ -45,7 +75,7 @@ public class InstructorsRepositories: IInstructorsRepositories
 
         if (instructorbyID == null)
         {
-            throw new Exception($"Student Id: {id} not found");
+            throw new Exception($"Instructor Id: {id} not found");
         }
         instructorbyID.ID = instructorbyID.ID;
         instructorbyID.Name = instructors.Name;

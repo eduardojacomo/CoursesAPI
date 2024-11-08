@@ -1,4 +1,5 @@
 ﻿using CoursesAPI.Data;
+using CoursesAPI.DTOs;
 using CoursesAPI.Models;
 using CoursesAPI.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -13,9 +14,22 @@ public class StudentsRepositories:IStudentsRepositories
         _dBContext = appDBContext;
     }
 
-    public async Task<List<StudentModel>> GetStudents()
+    public async Task<List<StudentDTO>> GetStudents()
     {
-        return await _dBContext.Students.AsNoTracking().ToListAsync();
+        return await _dBContext.Students
+            .AsNoTracking()
+            .Select(s => new StudentDTO
+            {
+                ID = s.ID,
+                Name = s.Name,
+                Adress = s.Adress,
+                City = s.City,
+                State = s.State,
+                Complement = s.Complement,
+                PostalCode = s.PostalCode,
+                Phone = s.Phone,
+            })
+            .ToListAsync();
     }
 
     public async Task<StudentModel> GetByID(int id)
@@ -23,6 +37,30 @@ public class StudentsRepositories:IStudentsRepositories
         return await _dBContext.Set<StudentModel>().FindAsync(id);
     }
 
+    public async Task<StudentDTO> GetStudentByID(int id)
+    {
+        var students = await _dBContext.Students
+            .Where(s => s.ID == id)
+            .Select(s => new StudentDTO
+            {
+                ID = s.ID,
+                Name = s.Name,
+                Adress = s.Adress,
+                City = s.City,
+                State = s.State,
+                Complement = s.Complement,
+                PostalCode = s.PostalCode,
+                Phone = s.Phone,
+            })
+            .FirstOrDefaultAsync();
+
+        if (students == null)
+        {
+            throw new Exception($"Student Id: {id} not found");
+        }
+
+        return students;
+    }
 
     public async Task<StudentModel> SetStudent(StudentModel students)
     {

@@ -1,4 +1,5 @@
 ﻿using CoursesAPI.Data;
+using CoursesAPI.DTOs;
 using CoursesAPI.Models;
 using CoursesAPI.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -13,14 +14,39 @@ public class CategoryRepositories : ICategoryRepositories
         _dBContext = appDBContext;
     }
 
-    public async Task<List<CategoryModel>> GetCategory()
+    public async Task<List<CategoryDTO>> GetCategory()
     {
-        return await _dBContext.Category.AsNoTracking().ToListAsync();
+        return await _dBContext.Category
+            .AsNoTracking()
+            .Select(c => new CategoryDTO
+            {
+                ID = c.ID,
+                Title = c.Title
+            })
+            .ToListAsync();
     }
 
     public async Task<CategoryModel> GetByID(int id)
     {
         return await _dBContext.Set<CategoryModel>().FindAsync(id);
+    }
+
+    public async Task<CategoryDTO> GetCategoryByID(int id)
+    {
+        var category = await _dBContext.Category
+            .AsNoTracking()
+            .Select(c => new CategoryDTO
+            {
+                ID = c.ID,
+                Title = c.Title
+            })
+            .FirstOrDefaultAsync();
+        if (category == null)
+        {
+            throw new Exception($"Category Id: {id} not found");
+        }
+
+        return category;
     }
 
 

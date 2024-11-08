@@ -1,4 +1,5 @@
-﻿using CoursesAPI.Models;
+﻿using CoursesAPI.DTOs;
+using CoursesAPI.Models;
 using CoursesAPI.Repositories;
 using CoursesAPI.Repositories.Interface;
 using Microsoft.AspNetCore.Cors;
@@ -22,17 +23,17 @@ public class StudentController : ControllerBase
     [HttpGet]
     [Route("GetStudents")]
     [ProducesDefaultResponseTypeAttribute()]
-    public async Task<ActionResult<List<StudentController>>> GetStudents()
+    public async Task<ActionResult<List<StudentDTO>>> GetStudents()
     {
-        List<StudentModel> students = await service.GetStudents();
+        List<StudentDTO> students = await service.GetStudents();
         return Ok(students);
     }
 
     [HttpGet("{id}")]
     [ProducesDefaultResponseTypeAttribute()]
-    public async Task<ActionResult<StudentController>> GetByID(int id)
+    public async Task<ActionResult<StudentDTO>> GetStudentByID(int id)
     {
-        StudentModel students = await service.GetByID(id);
+        StudentDTO students = await service.GetStudentByID(id);
         return Ok(students);
     }
 

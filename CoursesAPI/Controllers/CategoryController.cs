@@ -1,4 +1,5 @@
-﻿using CoursesAPI.Models;
+﻿using CoursesAPI.DTOs;
+using CoursesAPI.Models;
 using CoursesAPI.Repositories;
 using CoursesAPI.Repositories.Interface;
 using Microsoft.AspNetCore.Cors;
@@ -22,17 +23,17 @@ public class CategoryController : ControllerBase
     [HttpGet]
     [Route("GetCategory")]
     [ProducesDefaultResponseTypeAttribute()]
-    public async Task<ActionResult<List<CategoryController>>> GetCategory()
+    public async Task<ActionResult<List<CategoryDTO>>> GetCategory()
     {
-        List<CategoryModel> category = await service.GetCategory();
+        List<CategoryDTO> category = await service.GetCategory();
         return Ok(category);
     }
 
     [HttpGet("{id}")]
     [ProducesDefaultResponseTypeAttribute()]
-    public async Task<ActionResult<CategoryController>> GetByID(int id)
+    public async Task<ActionResult<CategoryDTO>> GetCaregoryByID(int id)
     {
-        CategoryModel category = await service.GetByID(id);
+        CategoryDTO category = await service.GetCategoryByID(id);
         return Ok(category);
     }
 

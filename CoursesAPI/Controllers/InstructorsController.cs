@@ -1,4 +1,5 @@
-﻿using CoursesAPI.Models;
+﻿using CoursesAPI.DTOs;
+using CoursesAPI.Models;
 using CoursesAPI.Repositories;
 using CoursesAPI.Repositories.Interface;
 using Microsoft.AspNetCore.Cors;
@@ -22,17 +23,17 @@ public class InstructorsController : ControllerBase
     [HttpGet]
     [Route("GetInstructors")]
     [ProducesDefaultResponseTypeAttribute()]
-    public async Task<ActionResult<List<InstructorsController>>> GetInstructors()
+    public async Task<ActionResult<List<InstructorDTO>>> GetInstructors()
     {
-        List<InstructorsModel> instructors = await service.GetInstructors();
+        List<InstructorDTO> instructors = await service.GetInstructors();
         return Ok(instructors);
     }
 
     [HttpGet("{id}")]
     [ProducesDefaultResponseTypeAttribute()]
-    public async Task<ActionResult<InstructorsController>> GetByID(int id)
+    public async Task<ActionResult<InstructorDTO>> GetInstructorByID(int id)
     {
-        InstructorsModel instructors = await service.GetByID(id);
+        InstructorDTO instructors = await service.GetInstructorByID(id);
         return Ok(instructors);
     }
 
